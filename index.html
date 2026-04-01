@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AA · портфолио дизайна</title>
+    <!-- Подключаем шрифты: Manrope для текста, Great Vibes для лого (каллиграфический) -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Great+Vibes&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: linear-gradient(145deg, #f5dde8 0%, #d0ddf5 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            scroll-behavior: smooth;
+            padding: 0 20px;
+        }
+
+        .glass-wrap {
+            width: 100%;
+            max-width: 1300px;
+            margin: 20px auto;
+        }
+
+        /* стекло */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(16px) saturate(180%);
+            border-radius: 42px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+        }
+
+        /* ХЭДЕР */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 28px;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(18px);
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+        }
+
+        /* логотип: ещё меньше, сильнее вправо */
+        .logo a {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.3rem; /* уменьшен */
+            font-weight: 400;
+            text-decoration: none;
+            color: #2c2c5c;
+            letter-spacing: 1px;
+            position: relative;
+            display: inline-block;
+            padding: 0 6px;
+            margin-right: 90px; /* ещё правее */
+        }
+        /* штрихи вокруг логотипа (чуть короче) */
+        .logo a::before,
+        .logo a::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: #ff9eb5;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.6;
+        }
+        .logo a::before { left: -24px; }
+        .logo a::after { right: -24px; }
+
+        .main-nav {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .main-nav a {
+            text-decoration: none;
+            color: #30305a;
+            font-weight: 500;
+            padding: 8px 24px;
+            border-radius: 50px;
+            background: rgba(255, 235, 245, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: 0.2s;
+        }
+        .main-nav a:hover {
+            background: rgba(255, 210, 230, 0.7);
+            border-color: #ffb0c0;
+        }
+
+        /* кнопка наверх */
+        .to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 225, 240, 0.7);
+            backdrop-filter: blur(20px);
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #3a2e5a;
+            text-decoration: none;
+            z-index: 999;
+            border: 1px solid white;
+        }
+
+        /* главная заставка с анимацией */
+        .hero {
+            position: relative;
+            background: rgba(255, 245, 250, 0.3);
+            backdrop-filter: blur(18px);
+            border-radius: 64px;
+            padding: 70px 40px;
+            margin: 20px 0 50px;
+            text-align: center;
+            overflow: hidden;
+        }
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 400;
+            color: #28284e;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+        .hero p {
+            font-size: 1.4rem;
+            color: #35355f;
+            background: rgba(255, 235, 250, 0.4);
+            padding: 8px 28px;
+            border-radius: 60px;
+            display: inline-block;
+            backdrop-filter: blur(4px);
+            border: 1px solid #ffe0f0;
+        }
+        /* невесомая анимированная форма (общая) */
+        .floating-shape {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(255,200,220,0.3) 0%, rgba(180,200,255,0.2) 100%);
+            border-radius: 60% 40% 70% 30% / 40% 50% 60% 50%;
+            animation: float 12s infinite ease-in-out;
+            z-index: 0;
+            pointer-events: none;
+            filter: blur(25px);
+        }
+        .floating-shape2 {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255,220,240,0.35) 0%, rgba(200,180,250,0.2) 100%);
+            border-radius: 70% 30% 60% 40% / 50% 60% 40% 50%;
+            animation: float 15s infinite reverse;
+            filter: blur(20px);
+            pointer-events: none;
+        }
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(30px, -20px) rotate(5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        /* сетка проектов нестандартная */
+        .projects-custom {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        .project-row {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .project-card {
+            background: rgba(255, 240, 250, 0.3);
+            backdrop-filter: blur(18px);
+            border-radius: 48px;
+            padding: 24px 20px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            transition: 0.2s;
+            text-decoration: none;
+            color: inherit;
+            flex: 1;
+            min-width: 250px;
+        }
+        .project-card:hover { transform: translateY(-6px); background: rgba(255,225,245,0.5); }
+        .card-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, #ffe0f0, #d6e4ff);
+            border-radius: 36px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #fff;
+        }
+        .project-card h3 {
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #2d2d55;
+        }
+        .year-badge {
+            font-size: 1.1rem;
+            background: rgba(255, 220, 240, 0.6);
+            padding: 6px 18px;
+            border-radius: 40px;
+            display: inline-block;
+            border: 1px solid #ffd0e0;
+            font-weight: 500;
+            margin-top: 6px;
+        }
+        .project-wide {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+        }
+        .project-horizontal {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            background: rgba(255, 240, 250, 0.3);
+            backdrop-filter: blur(18px);
+            border-radius: 48px;
+            padding: 24px 30px;
+            border: 1px solid #fff;
+            text-decoration: none;
+            color: inherit;
+            flex: 1;
+        }
+        .project-horizontal .card-img {
+            width: 180px;
+            aspect-ratio: 1/1;
+            margin-bottom: 0;
+        }
+        .project-horizontal .content {
+            flex: 1;
+        }
+        .project-centered {
+            text-align: center;
+            background: rgba(255, 240, 250, 0.3);
+            backdrop-filter: blur(18px);
+            border-radius: 48px;
+            padding: 30px;
+            border: 1px solid #fff;
+            text-decoration: none;
+            color: inherit;
+            width: 100%;
+        }
+        .project-centered .card-img {
+            max-width: 300px;
+            margin: 0 auto 20px;
+        }
+
+        /* общие стили для страниц */
+        .section-container {
+            background: rgba(255, 245, 250, 0.3);
+            backdrop-filter: blur(20px);
+            border-radius: 56px;
+            padding: 40px;
+            margin: 30px 0;
+            border: 1px solid #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        .project-nav-btn {
+            background: rgba(250, 215, 235, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid #fff;
+            padding: 12px 36px;
+            border-radius: 60px;
+            text-decoration: none;
+            color: #2f2f60;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .project-nav-btn:hover { background: rgba(255, 200, 225, 0.8); }
+
+        /* карусель - увеличенная и адаптивная */
+        .carousel-container {
+            position: relative;
+            max-width: 100%;
+            margin: 30px auto;
+            background: rgba(255, 245, 250, 0.2);
+            border-radius: 48px;
+            padding: 20px 0;
+        }
+        .carousel-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+    .carousel-main {
+        flex-wrap: nowrap;
+    }
+}
+        .carousel-btn {
+    background: rgba(255, 220, 240, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid white;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #3a2e62;
+    line-height: 1;
+    transition: 0.1s;
+    flex-shrink: 0;
+}
+  .carousel-image {
+    background: linear-gradient(145deg, #fbdeec, #dbeafe);
+    border-radius: 42px;
+    border: 2px solid #fff;
+    transition: all 0.4s ease-in-out;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    max-width: 95vw;
+    max-height: 90vh;
+    min-width: 300px;
+    min-height: 250px;
+    width: auto;
+    height: auto;
+    flex-shrink: 1;
+}
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 20px;
+            background: rgba(80, 60, 100, 0.3);
+            border: 1px solid #fff;
+            cursor: pointer;
+        }
+        .dot.active { width: 30px; background: #a57ca5; }
+
+        /* страница "Обо мне" — форма с бликами, менее яркая */
+        .about-photo-square {
+            width: 280px;
+            height: 280px;
+            background: linear-gradient(145deg, #ffdae8, #d2dcff);
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #fff;
+            font-size: 1.1rem;
+            color: #4a4a78;
+        }
+        .about-layout {
+            display: flex;
+            gap: 50px;
+            margin: 30px 0 40px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+        .about-text-block {
+            flex: 1;
+            max-width: 500px;
+            column-count: 2;
+            column-gap: 30px;
+            line-height: 1.5;
+            color: #353563;
+        }
+        .switch-buttons {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0 30px;
+            flex-wrap: wrap;
+        }
+        .switch-btn {
+            background: rgba(255, 220, 240, 0.5);
+            border: 1px solid #fff;
+            padding: 10px 28px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .switch-btn.active {
+            background: #ffb6c7;
+            color: #2c2c5c;
+        }
+        .info-panel {
+            background: rgba(255, 235, 245, 0.3);
+            padding: 30px;
+            border-radius: 48px;
+            margin-top: 20px;
+            backdrop-filter: blur(4px);
+        }
+        /* кружок на странице "обо мне" — менее яркий, с бликами */
+        .about-large-shape {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(255,180,210,0.4) 0%, rgba(200,170,250,0.3) 100%);
+            border-radius: 70% 30% 60% 40% / 50% 60% 40% 50%;
+            animation: float 14s infinite ease-in-out;
+            filter: blur(30px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        /* блик на форме "обо мне" */
+        .about-large-shape::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, rgba(255,255,245,0.7) 0%, rgba(255,255,255,0) 80%);
+            border-radius: 50%;
+            animation: shimmer 6s infinite alternate;
+            filter: blur(12px);
+            pointer-events: none;
+        }
+        @keyframes shimmer {
+            0% { transform: translate(-5%, -5%) scale(0.9); opacity: 0.5; }
+            100% { transform: translate(5%, 5%) scale(1.2); opacity: 0.9; }
+        }
+
+        /* страница контактов — кружок менее яркий, с бликами */
+        .contacts-shape {
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(255,190,220,0.45) 0%, rgba(180,170,250,0.35) 100%);
+            border-radius: 60% 40% 70% 30% / 40% 50% 60% 50%;
+            animation: float 12s infinite ease-in-out;
+            filter: blur(38px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .contacts-shape::after {
+            content: '';
+            position: absolute;
+            top: 25%;
+            left: 25%;
+            width: 50%;
+            height: 50%;
+            background: radial-gradient(circle, rgba(255,255,240,0.75) 0%, rgba(255,255,255,0) 85%);
+            border-radius: 50%;
+            animation: shimmer 8s infinite alternate;
+            filter: blur(15px);
+            pointer-events: none;
+        }
+        .contacts-layout {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            position: relative;
+            z-index: 1;
+        }
+        .contacts-info {
+            flex: 1;
+        }
+        .contacts-info h2 {
+            font-weight: 400;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+        .contact-item {
+            background: rgba(255, 230, 245, 0.4);
+            padding: 15px 30px;
+            border-radius: 60px;
+            margin-bottom: 15px;
+            border: 1px solid #ffd0e2;
+            backdrop-filter: blur(4px);
+        }
+        .contact-item a {
+            text-decoration: none;
+            color: #383870;
+            font-size: 1.1rem;
+        }
+        footer {
+            margin-top: 70px;
+            padding: 30px;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 235, 245, 0.3);
+            border-radius: 50px 50px 0 0;
+            text-align: center;
+            color: #3a3a62;
+        }
+        .year-large {
+            font-size: 1.8rem;
+            background: rgba(255, 215, 235, 0.6);
+            padding: 6px 25px;
+            border-radius: 70px;
+            border: 1px solid #fff;
+            display: inline-block;
+        }
+        .split-info {
+            display: flex;
+            gap: 30px;
+            margin: 25px 0;
+        }
+        .info-box {
+            flex: 1;
+            background: rgba(255, 235, 250, 0.35);
+            padding: 20px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+        }
+        .tools {
+            background: rgba(255, 215, 235, 0.45);
+            padding: 18px;
+            border-radius: 40px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <a href="#" class="to-top">↑</a>
+    <div class="glass-wrap">
+
+        <!-- ГЛАВНАЯ -->
+        <section id="home" class="page-section" style="display: block;">
+            <header>
+                <div class="logo"><a href="#home">AA</a></div>
+                <nav class="main-nav"><a href="#home">Главная</a><a href="#about">Обо мне</a><a href="#contacts">Контакты</a></nav>
+            </header>
+            <div class="hero">
+                <div class="floating-shape" style="top: -60px; right: -80px;"></div>
+                <div class="floating-shape2" style="bottom: -40px; left: -40px;"></div>
+                <h1>Графический дизайн как искусство</h1>
+                <p>портфолио Анастасии Прошичевой</p>
+            </div>
+
+            <div class="projects-custom">
+                <div class="project-row">
+<a href="#project1" class="project-card"><div class="card-img"><img src="images/project1_preview.jpg" alt="Проект один" style="width:100%; height:100%; object-fit:cover; border-radius:36px;"></div><h3>Брендбук города</h3><div class="year-badge">2025</div></a>
+<a href="#project2" class="project-card"><div class="card-img"><img src="images/project2_preview.jpg" alt="Проект два" style="width:100%; height:100%; object-fit:cover; border-radius:36px;"></div><h3>Артбук</h3><div class="year-badge">2026</div></a>
+                </div>
+<a href="#project3" class="project-wide project-card">
+    <div class="card-img" style="background-image: url('images/project3_preview.jpg'); background-size: cover; background-position: center;"></div>
+    <h3>Плакат</h3>
+    <div class="year-badge" style="display: inline-block; width: auto; max-width: fit-content;">2025</div>
+</a>              <div class="project-row">
+    <a href="#project4" class="project-horizontal">
+        <div class="content">
+            <h3>Сюжетный логотип</h3>
+            <div class="year-badge">2025</div>
+        </div>
+        <div class="card-img" style="background-image: url('images/project4_preview.jpg'); background-size: cover; background-position: center;"></div>
+    </a>
+    <a href="#project5" class="project-horizontal">
+        <div class="content">
+            <h3>Разработка робота</h3>
+            <div class="year-badge">2024</div>
+        </div>
+        <div class="card-img" style="background-image: url('images/project5_preview.png'); background-size: cover; background-position: center;"></div>
+    </a>
+</div>
+
+<!-- Центрированный проект (Вдохновение) - УДАЛЕН -->
+            <footer><p>© 2026</p></footer>
+        </section>
+
+        <!-- ОБО МНЕ -->
+        <section id="about" class="page-section" style="display: none;">
+            <header><div class="logo"><a href="#home">AA</a></div><nav class="main-nav"><a href="#home">Главная</a><a href="#about">Обо мне</a><a href="#contacts">Контакты</a></nav></header>
+            <div class="section-container">
+                <div class="about-large-shape"></div>
+                <h2 style="font-size: 3rem; font-weight: 400; margin-bottom: 30px;">Анастасия</h2>
+                <div class="about-layout">
+                    <div class="about-photo-square" style="background-image: url('images/portrait.jpg'); background-size: cover; background-position: center;"></div>
+                    <div class="about-text-block">
+                        <p>Графический дизайнер<br>с фокусом на эстетику<br>и дизайн на стыке<br>с иллюстрацией. Работаю<br>с арт‑объектами и цифровыми медиа. Верю, что дизайн —<br>это способ говорить с миром на языке чувств.</p>
+                        <p>Окончила СПБГУПТД<br>по направлению Прикладная информатика в дизайне.<br>Опыт работы — 6 лет<br>во фрилансе. Люблю экспериментировать<br>с формами и материалами.</p>
+                    </div>
+                </div>
+                <div class="switch-buttons">
+                    <div class="switch-btn active" data-tab="hard">Hard skills</div>
+                    <div class="switch-btn" data-tab="soft">Soft skills</div>
+                    <div class="switch-btn" data-tab="principles">Принципы работы</div>
+                </div>
+                <div id="info-panel" class="info-panel">
+                    <ul style="list-style: none; line-height: 1.8;"><li>• Adobe Creative Suite (Ps, AI, Id, AE)</li><li>• Figma</li><li>• Типографика, колористика</li><li>• Иллюстрация</li></ul>
+                </div>
+            </div>
+            <div style="margin: 30px 0; text-align: left;"><a href="#home" class="project-nav-btn">на главную</a></div>
+            <footer><p>© 2026</p></footer>
+        </section>
+
+        <!-- КОНТАКТЫ -->
+        <section id="contacts" class="page-section" style="display: none;">
+            <header><div class="logo"><a href="#home">AA</a></div><nav class="main-nav"><a href="#home">Главная</a><a href="#about">Обо мне</a><a href="#contacts">Контакты</a></nav></header>
+            <div class="section-container">
+                <div class="contacts-shape"></div>
+                <div class="contacts-layout">
+                    <div class="contacts-info">
+                        <h2>связь</h2>
+                        <div class="contact-item"><span>email</span> <a href="#">hello@aa.design</a></div>
+                        <div class="contact-item"><span>telegram</span> <a href="#">@aa_design</a></div>
+                        <!-- строка с instagram удалена -->
+                        <div class="contact-item"><span>behance</span> <a href="#">behance.net/aa</a></div>
+                    </div>
+                    <div style="flex: 1; min-height: 100px;"></div>
+                </div>
+                <div style="margin-top: 40px; text-align: left;"><a href="#home" class="project-nav-btn">на главную</a></div>
+            </div>
+            <footer><p>© 2026</p></footer>
+        </section>
+
+        <!-- проекты будут добавлены скриптом -->
+    </div>
+
+    <script>
+        // данные проектов
+        const projectsData = {
+            project1: { id: 'project1', name: 'Брендинг города', year: '2025', desc: 'Брендинг города Сыктывкар. Команда под руководством автора изучала теорию и подготовила все стилеобразующие для этого города.', desc2: 'Разработан тематический мерч, внутренние и внешние носители стиля. Участники группы (tg): @ldlka @povelitel_lord_vlastitel @RomashkaK5', tools: 'Figma, Ms Word', images: ['images/стикерпак.jpg', 'images/project1_preview.jpg', 'images/самолет.jpg'], prev: 'project5', next: 'project2' },
+            project2: { id: 'project2', name: 'Артбук', year: '2026', desc: 'Создание уникальных иллюстраций в собственном стиле. Каждое изображние уникально, имеет собственную палитру и настроение.', desc2: 'Были проработаны позы, эмоции и одежда персонажа. Так же большое унимание уделялось фонам и последующей верстке самого артбука.', tools: 'IbisPaintX, Adobe Indesign', images: ['images/bookcover1.png', 'images/ves.png'], prev: 'project1', next: 'project3' },
+            project3: { id: 'project3', name: 'Плакат «Сквозь века»', year: '2025', desc: 'Иллюстрация, выполненная на всероссийский конкурс «Чайковский. Перезагрузка». Заняла второе место в номинации диджитал-арт.', desc2: 'Работа демонстрирует связь поколений простыми визуальными образами. Объединяет их, естественно, музыка Чайковского.', tools: 'IbisPaintX', images: ['images/project3_preview.jpg', 'images/poster.jpg'], prev: 'project2', next: 'project4' },
+            project4: { id: 'project4', name: 'Сюжетный логотип', year: '2025', desc: 'Посредствам ассоциаций, разработан логотип для компания-организатор тематических квестов под названием RoyBox.', desc2: 'Лого должно было быть сюжетным, но не перегруженное. Итоговая идея: карта сокровищ и лупа, через которую на нее смотрят.', tools: 'IbisPaintX, Adobe Illustrator', images: ['images/кепка.png', 'images/project4_preview.jpg'], prev: 'project3', next: 'project5' },
+            project5: { id: 'project5', name: 'Разработка и брендинг робота', year: '2024', desc: 'Рекладмные материалы для робота-тюленя, созданного для домашней психотерапии', desc2: 'Как и сам тюлень, плакат и реклама мягкие, комфортные и распологающие к себе', tools: 'Figma', images: ['images/реклама.png', 'images/мокап.png'], prev: 'project4', next: 'project1' }
+        };
+
+        const wrap = document.querySelector('.glass-wrap');
+        document.querySelectorAll('.page-section[id^="project"]').forEach(sec => sec.remove());
+
+        for (let key in projectsData) {
+            const p = projectsData[key];
+            const section = document.createElement('section');
+            section.id = p.id;
+            section.className = 'page-section';
+            section.style.display = 'none';
+            section.innerHTML = `
+                <header><div class="logo"><a href="#home">AA</a></div><nav class="main-nav"><a href="#home">Главная</a><a href="#about">Обо мне</a><a href="#contacts">Контакты</a></nav></header>
+                <div class="project-page" style="background: rgba(250,240,250,0.3); backdrop-filter: blur(22px); border-radius: 56px; padding: 40px; margin:30px 0; border:1px solid #fff;">
+                    <div class="project-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap:wrap; margin-bottom:20px;">
+                        <h2 style="font-size:3rem; font-weight:340;">${p.name}</h2>
+                        <div class="year-large">${p.year}</div>
+                    </div>
+                    <div class="split-info">
+                        <div class="info-box">${p.desc}</div>
+                        <div class="info-box">${p.desc2}</div>
+                    </div>
+                    <div class="carousel-container" id="carousel-${p.id}">
+                        <div class="carousel-main">
+                            <div class="carousel-btn" data-dir="-1"><span>‹</span></div>
+                            <div class="carousel-image" id="carousel-img-${p.id}">изображение</div>
+                            <div class="carousel-btn" data-dir="1"><span>›</span></div>
+                        </div>
+                        <div class="carousel-indicators" id="dots-${p.id}"></div>
+                    </div>
+                    <div class="tools">используемые средства: ${p.tools}</div>
+                    <div class="project-navigation" style="display:flex; justify-content:space-between; margin:40px 0 20px;">
+                        <a href="#${p.prev}" class="project-nav-btn">назад</a>
+                        <a href="#${p.next}" class="project-nav-btn">вперед</a>
+                    </div>
+                    <div style="text-align:center;"><a href="#home" class="project-nav-btn">на главную</a></div>
+                </div>
+                <footer><p>© 2026</p></footer>
+            `;
+            wrap.appendChild(section);
+        }
+
+        // карусели с автопрокруткой и адаптацией под ориентацию
+        let activeIntervals = {};
+
+        function initCarouselWithAuto(carouselId, images, fit = 'cover') {
+            let idx = 0;
+            const imgDiv = document.getElementById(`carousel-img-${carouselId}`);
+            const container = document.getElementById(`carousel-${carouselId}`);
+            if (!imgDiv) return null;
+            let interval;
+
+            // Функция для загрузки изображения и подстройки размера
+            function adjustSize(url) {
+    const img = new Image();
+    img.onload = function() {
+        const aspect = img.width / img.height;
+        let w, h;
+        if (aspect > 1.2) { // горизонтальное
+            w = Math.min(window.innerWidth * 0.9, 1200);
+            h = w / aspect;
+        } else if (aspect < 0.8) { // вертикальное
+            h = Math.min(window.innerHeight * 0.9, 1000);
+            w = h * aspect;
+        } else { // квадратное или близкое
+            w = Math.min(window.innerWidth * 0.85, 1000);
+            h = w;
+        }
+        imgDiv.style.width = `${w}px`;
+        imgDiv.style.height = `${h}px`;
+        imgDiv.style.minWidth = '380px';
+        imgDiv.style.minHeight = '280px';
+    };
+    img.src = url;
+}
+
+            function update() {
+                const currentUrl = images[idx];
+                imgDiv.style.backgroundImage = `url('${currentUrl}')`;
+                imgDiv.style.backgroundSize = fit;
+                imgDiv.style.backgroundPosition = 'center';
+                imgDiv.style.backgroundRepeat = 'no-repeat';
+                imgDiv.style.backgroundColor = 'rgba(255, 245, 250, 0.2)';
+                imgDiv.textContent = '';
+                adjustSize(currentUrl); // адаптируем размер под текущее фото
+                const dots = document.querySelectorAll(`#dots-${carouselId} .dot`);
+                dots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
+            }
+
+            function next() { idx = (idx + 1) % images.length; update(); }
+            function prev() { idx = (idx - 1 + images.length) % images.length; update(); }
+
+            if (container) {
+                const btns = container.querySelectorAll('.carousel-btn');
+                if (btns[0]) btns[0].addEventListener('click', () => { clearInterval(interval); prev(); startAuto(); });
+                if (btns[1]) btns[1].addEventListener('click', () => { clearInterval(interval); next(); startAuto(); });
+            }
+
+            const dotsDiv = document.getElementById(`dots-${carouselId}`);
+            if (dotsDiv) {
+                dotsDiv.innerHTML = '';
+                images.forEach((_, i) => {
+                    const dot = document.createElement('span');
+                    dot.className = 'dot' + (i === idx ? ' active' : '');
+                    dot.addEventListener('click', () => { clearInterval(interval); idx = i; update(); startAuto(); });
+                    dotsDiv.appendChild(dot);
+                });
+            }
+
+            function startAuto() { interval = setInterval(() => next(), 5000); }
+            update();
+            startAuto();
+            return { stop: () => clearInterval(interval) };
+        }
+
+        const carouselImages = {
+            project1: ['images/стикерпак.jpg', 'images/project1_preview.jpg', 'images/самолет.jpg'],
+            project2: ['images/bookcover1.png', 'images/ves.png'],  // для Артбука
+            project3: ['images/project3_preview.jpg', 'images/poster.jpg'],
+            project4: ['images/кепка.png', 'images/project4_preview.jpg'],
+            project5: ['images/реклама.png', 'images/мокап.png']
+        };
+
+        function initAllCarousels() {
+            for (let id in carouselImages) {
+                if (document.getElementById(`carousel-${id}`)) {
+                    if (activeIntervals[id]) activeIntervals[id].stop();
+                    // Для project2 используем contain, для остальных cover
+                    const fit = (id === 'project2') ? 'contain' : 'cover';
+                    activeIntervals[id] = initCarouselWithAuto(id, carouselImages[id], fit);
+                }
+            }
+        }
+
+        // переключатель вкладок на странице "обо мне"
+        const tabs = {
+            hard: '<ul style="list-style: none;"><li>• Adobe Creative Suite (Ps, AI, Id, AE)</li><li>• Figma</li><li>• Типографика, колористика</li><li>• Иллюстрация</li></ul>',
+            soft: '<ul style="list-style: none;"><li>• Коммуникабельность и эмпатия</li><li>• Работа в четкие сроки</li><li>• Критическое мышление</li><li>• Командная работа и арт-дирекшн</li></ul>',
+            principles: '<ul style="list-style: none;"><li>• Форма следует за содержанием</li><li>• Внимание к деталям</li><li>• Экологичность материалов</li><li>• Открытость к экспериментам</li></ul>'
+        };
+        const btns = document.querySelectorAll('.switch-btn');
+        const panel = document.getElementById('info-panel');
+        if (btns.length && panel) {
+            btns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const tab = btn.getAttribute('data-tab');
+                    if (tab && tabs[tab]) panel.innerHTML = tabs[tab];
+                });
+            });
+        }
+
+        // навигация между страницами
+        const sections = document.querySelectorAll('.page-section');
+        function showSection(hash) {
+            const targetId = hash.replace('#', '') || 'home';
+            sections.forEach(sec => sec.style.display = sec.id === targetId ? 'block' : 'none');
+            setTimeout(() => initAllCarousels(), 80);
+        }
+        window.addEventListener('load', () => { showSection(window.location.hash); initAllCarousels(); });
+        window.addEventListener('hashchange', () => showSection(window.location.hash));
+        if (!window.location.hash) showSection('#home');
+    </script>
+</body>
+</html>
